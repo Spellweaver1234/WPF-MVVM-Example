@@ -26,7 +26,7 @@ namespace TaskListMVVM.ViewModels
             Customers = new Customer().MockData();
         }
 
-        #region Proeties
+        #region Properties
         public Customer SelectedCustomer
         {
             get => _selectedCustomer;

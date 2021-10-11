@@ -27,10 +27,10 @@ namespace TaskListMVVM.Models
         {
             return new ObservableCollection<Customer>()
             {
-            new Customer("Евгений", "Починить принтер", 500, new DateTime(2019, 5, 11)),
-            new Customer("Женя", "Заказать пиццу на др", 350, new DateTime(2019, 6, 15)),
-            new Customer("Толя", "Обновить windows в 405 кабинете", 100, new DateTime(2019, 6, 17)),
-            new Customer("Никита", "Купить 15м сетевого кабеля RJ-45", 400, new DateTime(2019, 6, 19))
+                new Customer("Евгений", "Починить принтер", 500, new DateTime(2019, 5, 11)),
+                new Customer("Женя", "Заказать пиццу на др", 350, new DateTime(2019, 6, 15)),
+                new Customer("Толя", "Обновить windows в 405 кабинете", 100, new DateTime(2019, 6, 17)),
+                new Customer("Никита", "Купить 15м сетевого кабеля RJ-45", 400, new DateTime(2019, 6, 19))
             };
         }
 
