@@ -1,0 +1,162 @@
+﻿<Window
+    x:Class="TaskListMVVM.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:TaskListMVVM.ViewModels"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <Style x:Key="Text">
+            <Setter Property="TextBlock.Margin" Value="5" />
+            <Setter Property="TextBlock.FontSize" Value="12" />
+        </Style>
+
+        <Style
+            BasedOn="{StaticResource Text}"
+            TargetType="TextBlock" />
+
+        <Style
+            x:Key="BoldText"
+            BasedOn="{StaticResource Text}">
+            <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+        </Style>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <vm:AppViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Menu
+            Grid.Row="0"
+            Grid.ColumnSpan="2">
+            <MenuItem Header="Файл">
+                <MenuItem
+                    Command="{Binding OpenCommand}"
+                    Header="Открыть" />
+                <MenuItem
+                    Command="{Binding SaveCommand}"
+                    Header="Сохранить" />
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <ListBox
+                Grid.Row="0"
+                ItemsSource="{Binding Customers}"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SelectedItem="{Binding SelectedCustomer}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock
+                                Background="{x:Null}"
+                                FontSize="16"
+                                FontWeight="DemiBold"
+                                Text="{Binding Name}" />
+                            <TextBlock Text="{Binding Task}" />
+                            <TextBlock
+                                Foreground="{Binding Color}"
+                                Text="{Binding DeadlineString}"
+                                TextAlignment="Left" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Width="80"
+                    Command="{Binding CommandAdd}"
+                    Content="Добавить" />
+                <Button
+                    Width="80"
+                    Command="{Binding CommandRemove}"
+                    CommandParameter="{Binding SelectedCustomer}"
+                    Content="Удалить" />
+                <Button
+                    Width="80"
+                    Command="{Binding CommandSort}"
+                    Content="Сортировать" />
+                <Button
+                    Width="40"
+                    Content="x2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DoubleCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5">
+            <StackPanel DataContext="{Binding SelectedCustomer}">
+                <TextBlock
+                    FontSize="16"
+                    Style="{StaticResource BoldText}"
+                    Text="Customer"
+                    TextAlignment="Center" />
+                <DockPanel>
+                    <TextBlock
+                        Width="100"
+                        Style="{StaticResource BoldText}"
+                        Text="Name: " />
+                    <TextBox
+                        Margin="5"
+                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock
+                        Width="100"
+                        Style="{StaticResource BoldText}"
+                        Text="Task: " />
+                    <TextBox
+                        Margin="5"
+                        Text="{Binding Task, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock
+                        Width="100"
+                        Style="{StaticResource BoldText}"
+                        Text="Deadline: " />
+                    <TextBlock
+                        Margin="5"
+                        Text="{Binding DeadlineString}" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock
+                        Width="100"
+                        Style="{StaticResource BoldText}"
+                        Text="Solved: " />
+                    <CheckBox
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding IsSolved}" />
+                </DockPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
